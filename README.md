@@ -36,7 +36,7 @@ This bundle requires the following JAR files to be available in the runtime clas
 * zimbrasoap.jar
 * zimbrastore.jar
 
-which can be normally found under `/opt/zimbra/jetty-distribution-*/webapps/zimbra/WEB-INF/lib` of your Zimbra deployment.
+which can be normally found under `/opt/zimbra/lib/jars/` of your Zimbra deployment.
 
 ## Project information
 
