@@ -27,6 +27,17 @@ where `connid.zimbra.version` is one of [available](http://repo1.maven.org/maven
 
 Available from [releases](https://github.com/Tirasa/ConnIdZimbraBundle/releases).
 
+### Runtime dependencies
+
+This bundle requires the following JAR files to be available in the runtime classpath:
+
+* zimbraclient.jar
+* zimbracommon.jar
+* zimbrasoap.jar
+* zimbrastore.jar
+
+which can be normally found under `/opt/zimbra/jetty-distribution-*/webapps/zimbra/WEB-INF/lib` of your Zimbra deployment.
+
 ## Project information
 
  * [wiki](https://connid.atlassian.net/wiki/display/BASE/Zimbra)
