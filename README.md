@@ -3,9 +3,12 @@ ConnIdZimbraBundle
 
 The Zimbra bundle is part of the [ConnId](http://connid.tirasa.net) project.
 
+The source code for this bundle was initially donated by [Intesys](http://www.intesys.it/).
+
 <a href="https://maven-badges.herokuapp.com/maven-central/net.tirasa.connid.bundles/net.tirasa.connid.bundles.zimbra">
   <img src="https://maven-badges.herokuapp.com/maven-central/net.tirasa.connid.bundles/net.tirasa.connid.bundles.zimbra/badge.svg"/>
 </a>
+
 ## How to get it
 
 ### Maven
