@@ -38,6 +38,18 @@ This bundle requires the following JAR files to be available in the runtime clas
 
 which can be normally found under `/opt/zimbra/lib/jars/` of your Zimbra deployment.
 
+Moreover, depending on your actual Zimbra version, the following additional runtime dependencies might be needed:
+
+* commons-codec-1.7.jar
+* commons-httpclient-3.1.jar
+* dom4j-1.5.2.jar
+* guava-13.0.1.jar
+* javamail-1.4.5.jar
+* json.jar
+* log4j-1.2.16.jar
+
+which can be also found under `/opt/zimbra/lib/jars/` of your Zimbra deployment.
+
 ## Project information
 
  * [wiki](https://connid.atlassian.net/wiki/display/BASE/Zimbra)
