@@ -132,6 +132,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                 sp = new SoapProvisioning();
                 sp.soapSetURI(adminServiceLocation);
                 sp.soapAdminAuthenticate(adminUsername, GuardedStringAccessor.toString(adminPassword));
+                
             } catch (ServiceException ex) {
                 throw new ConnectionFailedException(configuration.getConnectorMessages().format(
                         ZimbraConstants.ZIMBRA_CONNECT_FAILED_MSG, null, adminServiceLocation, adminUsername), ex);
@@ -585,12 +586,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             } else {
                 value.add(zimbraValue);
             }
-            if (Provisioning.A_zimbraId.equalsIgnoreCase(zimbraName)) {
-                attrs.add(new Uid((String) zimbraValue));
-            } else if (Provisioning.A_uid.equalsIgnoreCase(zimbraName) || Provisioning.A_zimbraDomainName.
-                    equalsIgnoreCase(zimbraName)) {
-                attrs.add(new Name((String) zimbraValue));
-            } else if (Provisioning.A_zimbraAccountStatus.equalsIgnoreCase(zimbraName)) {
+            if (Provisioning.A_zimbraAccountStatus.equalsIgnoreCase(zimbraName)) {
                 if (Provisioning.ACCOUNT_STATUS_LOCKED.equalsIgnoreCase((String) zimbraValue)) {
                     attrs.add(AttributeBuilder.buildLockOut(true));
                 } else {
