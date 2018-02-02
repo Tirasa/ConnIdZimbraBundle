@@ -122,7 +122,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
     }
 
     private SoapProvisioning sp() {
-        if (sp == null && configuration != null) {
+        if ((sp == null || sp.isExpired()) && configuration != null) {
             configuration.validate();
 
             String adminServiceLocation = configuration.getAdminServiceLocation();
