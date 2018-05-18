@@ -132,7 +132,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                 sp = new SoapProvisioning();
                 sp.soapSetURI(adminServiceLocation);
                 sp.soapAdminAuthenticate(adminUsername, GuardedStringAccessor.toString(adminPassword));
-                
+
             } catch (ServiceException ex) {
                 throw new ConnectionFailedException(configuration.getConnectorMessages().format(
                         ZimbraConstants.ZIMBRA_CONNECT_FAILED_MSG, null, adminServiceLocation, adminUsername), ex);
@@ -449,11 +449,11 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             for (NamedEntry zimbraEntry : allEntries) {
                 ConnectorObjectBuilder builder = new ConnectorObjectBuilder();
                 builder.setObjectClass(objClass);
-                String zimbraName = zimbraEntry.getAttr(Provisioning.A_uid);
+                String zimbraName = zimbraEntry.getAttr(Provisioning.A_uid, true, true);
                 Uid uid = new Uid(toObjectUid(objClass, zimbraName));
                 builder.setUid(uid);
                 builder.setName(toObjectName(objClass, zimbraName));
-                Map<String, Object> zimbraAttrs = zimbraEntry.getAttrs();
+                Map<String, Object> zimbraAttrs = zimbraEntry.getAttrs(true, false);
                 builder.addAttributes(getAttributes(objClass, zimbraAttrs));
                 if (!handler.handle(builder.build())) {
                     break;
@@ -489,6 +489,15 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 //		accountAttrsInfo.add(PredefinedAttributeInfos.PASSWORD_CHANGE_INTERVAL);
 //		accountAttrsInfo.add(PredefinedAttributeInfos.LAST_LOGIN_DATE);
 //		accountAttrsInfo.add(PredefinedAttributeInfos.GROUPS);
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_uid, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_mail, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_givenName, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_sn, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_cn, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_displayName, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_zimbraCreateTimestamp, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_zimbraAccountStatus, String.class));
+        accountAttrsInfo.add(AttributeInfoBuilder.build(Provisioning.A_zimbraId, String.class));
         accountAttrsInfo.add(ZimbraSpecialAttributeInfos.ALIASES);
         ObjectClassInfoBuilder accountInfoBld = new ObjectClassInfoBuilder();
         accountInfoBld.setType(ObjectClass.ACCOUNT_NAME);
