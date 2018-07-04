@@ -159,7 +159,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             }
 
             try {
-                if(StringUtil.isNotBlank(configuration.getCos())) {
+                if (StringUtil.isNotBlank(configuration.getCos())) {
                     cos = sp.getCosByName(configuration.getCos()).getId();
                 }
             } catch (ServiceException ex) {
@@ -350,11 +350,12 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             }
 
             Map<String, Object> zimbraAttrs = toZimbraAttributes(objClass, attrs);
+
+            if (cos != null) {
+                zimbraAttrs.put(Provisioning.A_zimbraCOSId, cos);
+            }          
             sp().modifyAttrs(zimbraEntry, zimbraAttrs);
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
-                if (cos != null) {
-                    zimbraAttrs.put(Provisioning.A_zimbraCOSId, cos);
-                }
                 Account account = (Account) zimbraEntry;
                 GuardedString password = AttributeUtil.getPasswordValue(attrs);
                 if (password != null) {
