@@ -51,6 +51,11 @@ public class ZimbraConfiguration extends AbstractConfiguration {
     private String emailDomainName = null;
 
     /**
+     * The COS value to assing
+     */
+    private String cos = null;
+
+    /**
      * Administration Service Location getter
      *
      * @return adminServiceLocation value
@@ -148,6 +153,31 @@ public class ZimbraConfiguration extends AbstractConfiguration {
         final String VARIABLE = "emailDomainName";
         LOG.ok("set {0} to {1}", VARIABLE, emailDomainName);
         this.emailDomainName = emailDomainName;
+    }
+
+    /**
+     * Cos getter
+     *
+     * @return cos value
+     */
+    @ConfigurationProperty(order = 5,
+            displayMessageKey = ZimbraConstants.ZIMBRA_COS_DISPLAY,
+            helpMessageKey = ZimbraConstants.ZIMBRA_COS_HELP)
+    public String getCos() {
+        final String VARIABLE = "cos";
+        LOG.ok("{0} is {1}", VARIABLE, cos);
+        return cos;
+    }
+
+    /**
+     * E-mail Domain Name setter
+     *
+     * @param cos value
+     */
+    public void setCos(String cos) {
+        final String VARIABLE = "cos";
+        LOG.ok("set {0} to {1}", VARIABLE, cos);
+        this.cos = cos;
     }
 
     /**
