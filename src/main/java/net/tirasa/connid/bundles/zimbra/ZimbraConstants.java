@@ -41,11 +41,17 @@ public interface ZimbraConstants {
 
     static final String ZIMBRA_EMAIL_DOMAIN_NAME_HELP = "zimbra.emailDomainName.help";
 
+    static final String ZIMBRA_COS_DISPLAY = "zimbra.cos.display";
+
+    static final String ZIMBRA_COS_HELP = "zimbra.cos.help";
+
     static final String ZIMBRA_CONNECT_FAILED_MSG = "zimbra.connectFailed.msg";
 
     static final String ZIMBRA_GET_CONFIG_FAILED_MSG = "zimbra.getConfigFailed.msg";
 
     static final String ZIMBRA_GET_DOMAIN_FAILED_MSG = "zimbra.getDomainFailed.msg";
+    
+    static final String ZIMBRA_GET_COS_FAILED_MSG = "zimbra.getCosFailed.msg";
 
     static final String ZIMBRA_CHECK_ALIVE_FAILED_MSG = "zimbra.checkAliveFailed.msg";
 

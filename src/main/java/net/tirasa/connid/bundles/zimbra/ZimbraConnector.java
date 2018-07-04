@@ -91,6 +91,8 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 
     private Schema schema;
 
+    private String cos;
+
     /* (non-Javadoc)
      * @see org.identityconnectors.framework.spi.Connector#init(org.identityconnectors.framework.spi.Configuration)
      */
@@ -119,6 +121,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         emailDomainName = null;
         sp = null;
         configuration = null;
+        cos = null;
     }
 
     private SoapProvisioning sp() {
@@ -151,6 +154,14 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 
             try {
                 domain = sp.get(Key.DomainBy.name, emailDomainName);
+            } catch (ServiceException ex) {
+                throw connectorException(ex, ZimbraConstants.ZIMBRA_GET_DOMAIN_FAILED_MSG);
+            }
+
+            try {
+                if(StringUtil.isNotBlank(configuration.getCos())) {
+                    cos = sp.getCosByName(configuration.getCos()).getId();
+                }
             } catch (ServiceException ex) {
                 throw connectorException(ex, ZimbraConstants.ZIMBRA_GET_DOMAIN_FAILED_MSG);
             }
@@ -293,6 +304,9 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 
             Map<String, Object> zimbraAttrs = toZimbraAttributes(objClass, attrs);
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
+                if (cos != null) {
+                    zimbraAttrs.put(Provisioning.A_zimbraCOSId, cos);
+                }
                 GuardedString password = AttributeUtil.getPasswordValue(attrs);
                 Account account = sp().createAccount(zimbraNewName, GuardedStringAccessor.toString(password),
                         zimbraAttrs);
@@ -338,6 +352,9 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             Map<String, Object> zimbraAttrs = toZimbraAttributes(objClass, attrs);
             sp().modifyAttrs(zimbraEntry, zimbraAttrs);
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
+                if (cos != null) {
+                    zimbraAttrs.put(Provisioning.A_zimbraCOSId, cos);
+                }
                 Account account = (Account) zimbraEntry;
                 GuardedString password = AttributeUtil.getPasswordValue(attrs);
                 if (password != null) {
