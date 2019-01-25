@@ -18,6 +18,8 @@ package net.tirasa.connid.bundles.zimbra;
 import java.io.UnsupportedEncodingException;
 import org.identityconnectors.common.logging.Log;
 import org.identityconnectors.framework.common.exceptions.ConnectionBrokenException;
+import org.identityconnectors.framework.common.objects.Attribute;
+import org.identityconnectors.framework.common.objects.AttributeBuilder;
 import org.identityconnectors.framework.common.objects.ObjectClass;
 import org.identityconnectors.framework.common.objects.filter.AbstractFilterTranslator;
 import org.identityconnectors.framework.common.objects.filter.AttributeFilter;
@@ -25,6 +27,7 @@ import org.identityconnectors.framework.common.objects.filter.ContainsAllValuesF
 import org.identityconnectors.framework.common.objects.filter.ContainsFilter;
 import org.identityconnectors.framework.common.objects.filter.EndsWithFilter;
 import org.identityconnectors.framework.common.objects.filter.EqualsFilter;
+import org.identityconnectors.framework.common.objects.filter.EqualsIgnoreCaseFilter;
 import org.identityconnectors.framework.common.objects.filter.GreaterThanFilter;
 import org.identityconnectors.framework.common.objects.filter.GreaterThanOrEqualFilter;
 import org.identityconnectors.framework.common.objects.filter.LessThanFilter;
@@ -119,6 +122,15 @@ public class ZimbraFilterTranslator extends AbstractFilterTranslator<String> {
     @Override
     public String createEqualsExpression(EqualsFilter filter, boolean not) {
         return createNotExpression(filter, "=", "", "", not);
+    }
+
+    @Override
+    protected String createEqualsIgnoreCaseExpression(EqualsIgnoreCaseFilter filter, boolean not) {
+        // Zimbra is on LDAP, then generally case-insensitive, reverting to EqualsFilter
+        Attribute attr = filter.getValue() == null
+                ? AttributeBuilder.build(filter.getName())
+                : AttributeBuilder.build(filter.getName(), filter.getValue());
+        return createEqualsExpression(new EqualsFilter(attr), not);
     }
 
     /**
