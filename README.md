@@ -22,6 +22,7 @@ The Zimbra bundle is part of the [ConnId](http://connid.tirasa.net) project.
 
 The source code for this bundle was initially donated by [Intesys](http://www.intesys.it/).
 
+<a href="https://travis-ci.org/Tirasa/ConnIdZimbraBundle"><img src="https://api.travis-ci.org/Tirasa/ConnIdZimbraBundle.png"/></a> 
 <a href="#">
   <img src="https://img.shields.io/maven-central/v/net.tirasa.connid.bundles/net.tirasa.connid.bundles.zimbra.svg"/>
 </a>
