@@ -318,7 +318,8 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                         sp().addAlias(account, toObjectName(objClass, alias));
                     }
                 }
-                Attribute distributionListAttr = AttributeUtil.find("__DISTRIBUTION_LISTS__", attrs);
+                Attribute distributionListAttr =
+                        AttributeUtil.find(ZimbraSpecialAttributes.DISTRIBUTION_LISTS_NAME, attrs);
                 if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
                     LOG.ok("Insert account into distribution list");
                     for (Object dl : distributionListAttr.getValue()) {
@@ -383,7 +384,8 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                         sp().addAlias(account, toObjectName(objClass, alias));
                     }
                 }
-                Attribute distributionListAttr = AttributeUtil.find("__DISTRIBUTION_LISTS__", attrs);
+                Attribute distributionListAttr =
+                        AttributeUtil.find(ZimbraSpecialAttributes.DISTRIBUTION_LISTS_NAME, attrs);
                 if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
                     LOG.ok("Insert account into distribution list");
                     for (Object dl : distributionListAttr.getValue()) {
