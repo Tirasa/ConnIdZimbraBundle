@@ -30,9 +30,11 @@ public final class ZimbraSpecialAttributes {
 
     /** __MEMBERS__ */
     public static final String MEMBERS_NAME = AttributeUtil.createSpecialName("MEMBERS");
+    
+    public static final String DISTRIBUTION_LISTS_NAME = AttributeUtil.createSpecialName("DISTRIBUTION_LISTS");
 
     public final static Set<String> ZIMBRA_ATTRIBUTE_NAMES =
-            CollectionUtil.newReadOnlySet(ALIASES_NAME, GROUPS_NAME, MEMBERS_NAME);
+            CollectionUtil.newReadOnlySet(ALIASES_NAME, GROUPS_NAME, MEMBERS_NAME, DISTRIBUTION_LISTS_NAME);
 
     public static Set<String> getZimbraSpecialAttributeNames() {
         return CollectionUtil.newReadOnlySet(ZIMBRA_ATTRIBUTE_NAMES);
