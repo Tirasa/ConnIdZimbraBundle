@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *           http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -319,8 +319,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                     }
                 }
                 Attribute distributionListAttr = AttributeUtil.find("__DISTRIBUTION_LISTS__", attrs);
-                if (distributionListAttr != null && distributionListAttr.getValue() != null
-                        && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
+                if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
                     LOG.ok("Insert account into distribution list");
                     for (Object dl : distributionListAttr.getValue()) {
                         DistributionList distributionList = sp().get(Key.DistributionListBy.name, dl.toString());
@@ -385,8 +384,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                     }
                 }
                 Attribute distributionListAttr = AttributeUtil.find("__DISTRIBUTION_LISTS__", attrs);
-                if (distributionListAttr != null && distributionListAttr.getValue() != null
-                        && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
+                if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
                     LOG.ok("Insert account into distribution list");
                     for (Object dl : distributionListAttr.getValue()) {
                         DistributionList distributionList = sp().get(Key.DistributionListBy.name, dl.toString());
@@ -698,7 +696,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             return isPasswordExpired ? ProvisioningConstants.TRUE : ProvisioningConstants.FALSE;
         }
         List<Object> attrValue = attr.getValue();
-        if (attrValue == null || attrValue.size() == 0) {
+        if (attrValue == null || CollectionUtil.isEmpty(attrValue)) {
             return null;
         }
         int attrSize = attrValue.size();
