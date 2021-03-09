@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.identityconnectors.common.CollectionUtil;
 import org.identityconnectors.common.StringUtil;
 import org.identityconnectors.common.logging.Log;
 import org.identityconnectors.common.security.GuardedString;
@@ -317,6 +318,16 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                         sp().addAlias(account, toObjectName(objClass, alias));
                     }
                 }
+                Attribute distributionListAttr =
+                        AttributeUtil.find(ZimbraSpecialAttributes.DISTRIBUTION_LISTS_NAME, attrs);
+                if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
+                    LOG.ok("Insert account into distribution list");
+                    for (Object dl : distributionListAttr.getValue()) {
+                        DistributionList distributionList = sp().get(Key.DistributionListBy.name, dl.toString());
+                        distributionList.addMembers(new String[]{zimbraNewName});
+                        LOG.ok("enter {0}(\"{1}\")", zimbraNewName, distributionList.getName());
+                    }
+                }
             } else if (objClass.is(ObjectClass.GROUP_NAME)) {
                 DistributionList distributionList = sp().createDistributionList(zimbraNewName, zimbraAttrs);
                 zimbraEntry = distributionList;
@@ -353,7 +364,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 
             if (cos != null) {
                 zimbraAttrs.put(Provisioning.A_zimbraCOSId, cos);
-            }          
+            }
             sp().modifyAttrs(zimbraEntry, zimbraAttrs);
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
                 Account account = (Account) zimbraEntry;
@@ -371,6 +382,16 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
                     }
                     for (String alias : aliases) {
                         sp().addAlias(account, toObjectName(objClass, alias));
+                    }
+                }
+                Attribute distributionListAttr =
+                        AttributeUtil.find(ZimbraSpecialAttributes.DISTRIBUTION_LISTS_NAME, attrs);
+                if (distributionListAttr != null && !CollectionUtil.isEmpty(distributionListAttr.getValue())) {
+                    LOG.ok("Insert account into distribution list");
+                    for (Object dl : distributionListAttr.getValue()) {
+                        DistributionList distributionList = sp().get(Key.DistributionListBy.name, dl.toString());
+                        distributionList.addMembers(new String[]{zimbraName});
+                        LOG.ok("enter {0}(\"{1}\")", zimbraName, distributionList.getName());
                     }
                 }
             } else if (objClass.is(ObjectClass.GROUP_NAME)) {
@@ -663,7 +684,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         } else if (attr.is(OperationalAttributes.ENABLE_NAME)) {
             Boolean isEnabled = AttributeUtil.getBooleanValue(attr);
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
-                return isEnabled ? Provisioning.ACCOUNT_STATUS_ACTIVE : Provisioning.ACCOUNT_STATUS_CLOSED;
+                return isEnabled ? Provisioning.ACCOUNT_STATUS_ACTIVE : Provisioning.ACCOUNT_STATUS_PENDING;
             } else if (objClass.is(ObjectClass.GROUP_NAME)) {
                 return isEnabled ? Provisioning.MAIL_STATUS_ENABLED : Provisioning.MAIL_STATUS_DISABLED;
             }
@@ -677,7 +698,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
             return isPasswordExpired ? ProvisioningConstants.TRUE : ProvisioningConstants.FALSE;
         }
         List<Object> attrValue = attr.getValue();
-        if (attrValue == null) {
+        if (attrValue == null || CollectionUtil.isEmpty(attrValue)) {
             return null;
         }
         int attrSize = attrValue.size();
