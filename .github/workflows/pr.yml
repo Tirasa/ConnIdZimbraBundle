@@ -29,7 +29,12 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Cache local Maven repository
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+          maven-version: 3.6.3
+
+        - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
