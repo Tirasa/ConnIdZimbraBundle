@@ -295,7 +295,7 @@
     </repository>
     <repository>
       <id>tirasa</id>
-      <url>http://quercia.tirasa.net/maven2/</url>
+      <url>https://sra.tirasa.net/quercia/maven2/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
