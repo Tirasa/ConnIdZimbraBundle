@@ -82,17 +82,17 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
 
     private static final Log LOG = Log.getLog(ZimbraConnector.class);
 
-    private ZimbraConfiguration configuration;
+    protected ZimbraConfiguration configuration;
 
-    private SoapProvisioning sp;
+    protected SoapProvisioning sp;
 
-    private String emailDomainName;
+    protected String emailDomainName;
 
-    private Domain domain;
+    protected Domain domain;
 
-    private Schema schema;
+    protected Schema schema;
 
-    private String cos;
+    protected String cos;
 
     /* (non-Javadoc)
      * @see org.identityconnectors.framework.spi.Connector#init(org.identityconnectors.framework.spi.Configuration)
@@ -125,7 +125,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         cos = null;
     }
 
-    private SoapProvisioning sp() {
+    protected SoapProvisioning sp() {
         if ((sp == null || sp.isExpired()) && configuration != null) {
             configuration.validate();
 
@@ -199,7 +199,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         LOG.ok("exit {0}()", METHOD);
     }
 
-    private static String getName(Set<Attribute> attrs) {
+    protected static String getName(Set<Attribute> attrs) {
         if (attrs != null) {
             Name name = AttributeUtil.getNameFromAttributes(attrs);
             if (name != null) {
@@ -209,7 +209,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return null;
     }
 
-    private static String toObjectUid(ObjectClass objClass, String name) {
+    protected static String toObjectUid(ObjectClass objClass, String name) {
         if (name != null) {
             int atIndex = name.indexOf('@');
             return atIndex != -1 ? name.substring(0, atIndex) : name;
@@ -217,7 +217,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return null;
     }
 
-    private String toObjectName(ObjectClass objClass, String name) {
+    protected String toObjectName(ObjectClass objClass, String name) {
         if (name != null) {
             StringBuilder sb = new StringBuilder();
             if (objClass.is(ObjectClass.ACCOUNT_NAME)
@@ -572,7 +572,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return schemaBld.build();
     }
 
-    static String toZimbraAttributeName(ObjectClass objClass, String name) {
+    public static String toZimbraAttributeName(ObjectClass objClass, String name) {
         if (AttributeUtil.namesEqual(Name.NAME, name)) {
             if (objClass.is(ObjectClass.ACCOUNT_NAME)) {
                 return Provisioning.A_uid;
@@ -607,7 +607,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return name;
     }
 
-    static String[] toZimbraAttributesToGet(ObjectClass objClass, OperationOptions options) {
+    protected static String[] toZimbraAttributesToGet(ObjectClass objClass, OperationOptions options) {
         if (options != null) {
             String[] attrsToGet = options.getAttributesToGet();
             if (attrsToGet != null) {
@@ -622,7 +622,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return null;
     }
 
-    static Set<Attribute> getAttributes(ObjectClass objClass, Map<String, Object> zimbraAttrs) {
+    protected static Set<Attribute> getAttributes(ObjectClass objClass, Map<String, Object> zimbraAttrs) {
         Set<Attribute> attrs = new HashSet<Attribute>();
         for (String zimbraName : zimbraAttrs.keySet()) {
             Object zimbraValue = zimbraAttrs.get(zimbraName);
@@ -658,7 +658,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return attrs;
     }
 
-    static String[] findAttribute(Set<Attribute> attrs, String attrName) {
+    protected static String[] findAttribute(Set<Attribute> attrs, String attrName) {
         if (attrs != null) {
             Attribute attr = AttributeUtil.find(attrName, attrs);
             if (attr != null) {
@@ -676,7 +676,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return null;
     }
 
-    static Object toZimbraAttributeValue(ObjectClass objClass, Attribute attr) {
+    public static Object toZimbraAttributeValue(ObjectClass objClass, Attribute attr) {
         if (attr.is(Name.NAME)) {
             return ((Name) attr).getNameValue();
         } else if (attr.is(Uid.NAME)) {
@@ -712,7 +712,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return result;
     }
 
-    static Map<String, Object> toZimbraAttributes(ObjectClass objClass, Set<Attribute> attrs) {
+    protected static Map<String, Object> toZimbraAttributes(ObjectClass objClass, Set<Attribute> attrs) {
         Map<String, Object> zimbraAttrs = new HashMap<String, Object>();
         for (Attribute attr : attrs) {
             if (!(attr.is(Name.NAME) || attr.is(Uid.NAME) || attr.is(OperationalAttributes.PASSWORD_NAME)
@@ -725,7 +725,7 @@ public class ZimbraConnector implements PoolableConnector, AuthenticateOp, Creat
         return zimbraAttrs;
     }
 
-    private RuntimeException connectorException(Throwable ex, String key, Object... args) {
+    protected RuntimeException connectorException(Throwable ex, String key, Object... args) {
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i] instanceof ObjectClass) {
