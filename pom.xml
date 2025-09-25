@@ -76,7 +76,7 @@
   </mailingLists>
 
   <properties>
-    <connid.version>1.4.5.1</connid.version>
+    <connid.version>1.6.0.1</connid.version>
     <zimbra.version>8.8.12</zimbra.version>
     
     <skipTests>true</skipTests>
