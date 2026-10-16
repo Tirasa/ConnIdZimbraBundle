@@ -112,7 +112,7 @@ public class ZimbraConfiguration extends AbstractConfiguration {
      */
     @ConfigurationProperty(order = 3, confidential = true,
             displayMessageKey = ZimbraConstants.ZIMBRA_ADMIN_PASSWORD_DISPLAY,
-            helpMessageKey = ZimbraConstants.ZIMBRA_ADMIN_PASSWORD_HELP, required = true)
+            helpMessageKey = ZimbraConstants.ZIMBRA_ADMIN_PASSWORD_HELP)
     public GuardedString getAdminPassword() {
         final String VARIABLE = "adminPassword";
         LOG.ok("{0} is {1}", VARIABLE, (adminPassword != null ? "********" : null));
